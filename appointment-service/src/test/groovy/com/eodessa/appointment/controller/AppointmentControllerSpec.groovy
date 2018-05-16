@@ -13,13 +13,14 @@ import static org.springframework.http.HttpStatus.OK
 
 @Category(UnitTest.class)
 class AppointmentControllerSpec extends Specification {
-    AppointmentService mockRecommendationService = Mock()
-    def controller = new AppointmentController(mockRecommendationService)
 
-    @Unroll("Test #num - getAppointment(#productId, #storeId)")
+    AppointmentService mockService = Mock()
+    def controller = new AppointmentController(mockService)
+
+    @Unroll("Test #num - getAppointment(#parm1, #parm2)")
     testGetAppointment() {
         given:
-        mockRecommendationService.getAppointmentByName("demo") >> appointment
+        mockService.getAppointmentByName("demo") >> appointment
 
         when:
         ResponseEntity<Appointment> result = controller.getAppointmentByName("demo")
@@ -27,12 +28,12 @@ class AppointmentControllerSpec extends Specification {
         then:
         assert statusCode == result.statusCode
         //assert expected == result.body
-        assert productId == '1234'
+        assert parm1 == '01234'
 
         where:
-        num | productId   | storeId | appointment                      | statusCode | expected
-        1   | '1234'      | 1234L   | Optional.empty()                 | NO_CONTENT | null
-        2   | '1234'      | 1234L   | Optional.of(createAppointment()) | OK         | createAppointment()
+        num | parm1        | parm2    | appointment                      | statusCode | expected
+        1   | '01234'      | 01234L   | Optional.empty()                 | NO_CONTENT | null
+        2   | '01234'      | 01234L   | Optional.of(createAppointment()) | OK         | createAppointment()
     }
 
     def createAppointment() {

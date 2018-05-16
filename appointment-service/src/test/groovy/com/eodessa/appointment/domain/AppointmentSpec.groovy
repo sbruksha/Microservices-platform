@@ -5,6 +5,7 @@ import spock.lang.Unroll
 
 @Category(UnitTest.class)
 class AppointmentSpec extends ModelBaseSpec {
+
     @Unroll("Appointment.Builder() Scenario #num - builds as expected")
     def testBuilder() {
         expect:
