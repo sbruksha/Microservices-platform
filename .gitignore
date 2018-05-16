@@ -27,9 +27,9 @@
 .idea/gradle.xml
 .idea/libraries
 .gradle
-gradle/
-gradlew
-gradlew.bat
+#gradle/
+#gradlew
+#gradlew.bat
 
 ## File-based project format:
 *.iws
