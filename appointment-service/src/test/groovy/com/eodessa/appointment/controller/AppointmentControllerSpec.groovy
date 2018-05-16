@@ -3,42 +3,47 @@ package com.eodessa.appointment.controller
 import com.eodessa.appointment.domain.Appointment
 import com.eodessa.appointment.service.AppointmentService
 import org.junit.experimental.categories.Category
-import com.eodessa.appointment.UnitTest
+import com.eodessa.appointment.IntegrationTest
 import org.springframework.http.ResponseEntity
 import spock.lang.Specification
 import spock.lang.Unroll
+import com.jayway.jsonpath.DocumentContext
+import com.jayway.jsonpath.JsonPath
+import org.springframework.web.client.RestTemplate
+import org.springframework.util.LinkedMultiValueMap
+import org.springframework.util.MultiValueMap
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpMethod
+import org.springframework.http.HttpStatus
+import static com.toomuchcoding.jsonassert.JsonAssertion.assertThatJson
 
-import static org.springframework.http.HttpStatus.NO_CONTENT
-import static org.springframework.http.HttpStatus.OK
-
-@Category(UnitTest.class)
+@Category(IntegrationTest.class)
 class AppointmentControllerSpec extends Specification {
 
-    AppointmentService mockService = Mock()
-    def controller = new AppointmentController(mockService)
-
-    @Unroll("Test #num - getAppointment(#parm1, #parm2)")
-    testGetAppointment() {
-        given:
-        mockService.getAppointmentByName("demo") >> appointment
-
-        when:
-        ResponseEntity<Appointment> result = controller.getAppointmentByName("demo")
-
-        then:
-        assert statusCode == result.statusCode
-        //assert expected == result.body
-        assert parm1 == '01234'
-
-        where:
-        num | parm1        | parm2    | appointment                      | statusCode | expected
-        1   | '01234'      | 01234L   | Optional.empty()                 | NO_CONTENT | null
-        2   | '01234'      | 01234L   | Optional.of(createAppointment()) | OK         | createAppointment()
+    def appointmentService = "http://localhost:6200"
+    def restTemplate = new RestTemplate()
+    def jwt = "Bearer abcdef"
+    def headers = new LinkedMultiValueMap<>() as MultiValueMap<String, String>
+    def setup(){ headers.setAll(["Authorization": "jwt" ])
     }
 
-    def createAppointment() {
-        Appointment app = new Appointment()
-        app.id = '1234'
-        return app
+    @Unroll("Expect valid appointment info when calling getAppointmentByName(#name)")
+    "should get appointment details by name"() {
+        given: "appointments endpoint"
+        def endpoint = "$appointmentService/appointments/$name"
+        when: "the endpoint is called"
+        def response = restTemplate.exchange(endpoint, HttpMethod.GET, new HttpEntity<String>(headers), String)
+        then: "Verify the status code = 200"
+        assert response.statusCode == HttpStatus.OK
+        and: "Verify the contents of the body"
+        DocumentContext parsedJson = JsonPath.parse(response.getBody().toString())
+        //System.console().print(parsedJson.field("id"))
+        assert(parsedJson !=null)
+        assertThatJson(parsedJson).field("id").isEqualTo("demo")
+        assertThatJson(parsedJson).field("['start']").matches("-?(\\d*\\.\\d+|\\d+)")
+        assertThatJson(parsedJson).field("['description']").matches("[\\S\\s]+")
+        where:
+        num | name
+        1   | "demo"
     }
 }
