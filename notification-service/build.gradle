@@ -1,0 +1,102 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.5.11.RELEASE'
+        classpath 'io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE'
+        classpath 'se.transmode.gradle:gradle-docker:1.2'
+        classpath 'net.researchgate:gradle-release:2.6.0'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'docker'
+apply plugin: 'jacoco'
+apply plugin: 'groovy'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'net.researchgate.release'
+
+group = 'eodessa'
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Edgware.SR3"
+    }
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.cloud:spring-cloud-starter-oauth2'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+	compile 'org.springframework.security.oauth:spring-security-oauth2'
+    compile 'org.springframework.cloud:spring-cloud-starter-config'
+	compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.cloud:spring-cloud-starter-feign'
+	compile 'org.springframework.cloud:spring-cloud-starter-eureka'
+    compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	compile 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+	compile 'org.springframework.cloud:spring-cloud-netflix-hystrix-stream'
+    compile 'org.springframework.boot:spring-boot-starter-test'
+	compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
+	compile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
+    compile 'com.jayway.jsonpath:json-path'
+    compile 'org.springframework.cloud:spring-cloud-netflix-hystrix-stream'
+    compile 'org.springframework.cloud:spring-cloud-starter-hystrix'
+    compile 'org.springframework.boot:spring-boot-starter-mail'
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.codehaus.groovy:groovy-all:2.4.10'
+    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+}
+
+task image(type: Docker, dependsOn: build ) {
+    applicationName = jar.baseName
+    dockerfile = file('Dockerfile')
+    doFirst {
+        copy {
+            from jar
+            into "${stageDir}/target"
+
+        }
+    }
+}
+
+task publishImage(type: Docker, dependsOn: build ) {
+    applicationName = jar.baseName
+    push = true
+    dockerfile = file('Dockerfile')
+    doFirst {
+        copy {
+            from jar
+            into "${stageDir}/target"
+
+        }
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+}
+
+afterReleaseBuild.dependsOn publishImage
+
+release {
+    revertOnFail = true
+    tagTemplate = '$name-$version'
+    buildTasks = ['clean', 'build', 'install']
+    git {
+        requireBranch = ''
+        commitVersionFileOnly = false
+    }
+}

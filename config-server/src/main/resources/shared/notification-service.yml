@@ -1,0 +1,57 @@
+security:
+  oauth2:
+    client:
+      clientId: notification-service
+      clientSecret: ${NOTIFICATION_SERVICE_PASSWORD}
+      accessTokenUri: http://auth-service:5000/uaa/oauth/token
+      grant-type: client_credentials
+      scope: server
+
+server:
+  context-path: /notifications
+  port: 8000
+
+remind:
+  cron: 0 0 0 * * *
+  email:
+    text: "Hey, {0}! We''ve missed you here. \r\n\r\nCheers,\r\nteam"
+    subject: Friendly reminder
+
+welcome:
+  cron: 0 0 12 * * *
+  email:
+    text: "Hello, {0}. Thank you for creating an account.\r\n\r\nCheers,\r\nteam"
+    subject: Account backup
+
+spring:
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: appointmentcreated
+#  rabbitmq:
+#    broker-url: tcp://127.0.0.1:5672
+#    username:
+#    password:
+  data:
+    mongodb:
+      host: notification-mongodb
+      username: user
+      password: ${MONGODB_PASSWORD}
+      database: eodessa
+      port: 27017
+  mail:
+    host: 127.0.0.1
+    port: 25
+    username: "{cipher}1bbe1bd0d24e54d3e319a087ab38f6e7e5e4d3ef26c2983237e25f2ba8d8f091740d3f0dd9a76425c072d20f2c0a07a6f"
+    password: "{cipher}1e448ad298784b023264652cf39cd4e85173d792609b33d17a4414a1b8788ca9b"
+    properties:
+      mail:
+        smtp:
+          auth: true
+#          socketFactory:
+#            port: 465
+#            class: javax.net.ssl.SSLSocketFactory
+#            fallback: false
+          ssl:
+            enable: false

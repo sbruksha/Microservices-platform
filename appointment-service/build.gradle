@@ -1,0 +1,142 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.5.11.RELEASE'
+        classpath 'io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE'
+        classpath 'se.transmode.gradle:gradle-docker:1.2'
+        classpath 'net.researchgate:gradle-release:2.6.0'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'docker'
+apply plugin: 'jacoco'
+apply plugin: 'groovy'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'net.researchgate.release'
+
+group = 'eodessa'
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Edgware.SR3"
+    }
+    dependencies {
+        //	Internal
+
+        // External
+        dependency "com.fasterxml.jackson.core:jackson-databind:2.8.11.1"
+        dependency "ch.qos.logback:logback-core:1.2.3"
+        dependency "org.slf4j:slf4j-api:1.7.25"
+        dependency "org.projectlombok:lombok:1.16.20"
+        dependency "com.google.guava:guava:23.0"
+        dependency "org.aspectj:aspectjweaver:1.8.13"
+    }
+    testCompile {
+        dependencies {
+            dependency "org.codehaus.groovy:groovy-all:2.4.10"
+            dependency "org.spockframework:spock-core:1.1-groovy-2.4"
+            dependency "org.spockframework:spock-spring:1.1-groovy-2.4"
+
+            dependency "ch.qos.logback:logback-classic:1.2.3"
+
+            dependency "net.bytebuddy:byte-buddy:1.6.5" // allows mocking of classes (in addition to interfaces)
+            dependency "org.objenesis:objenesis:2.5.1"  // allows mocking of classes without default constructor (together with CGLIB)
+        }
+    }
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.cloud:spring-cloud-starter-oauth2'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+	compile 'org.springframework.security.oauth:spring-security-oauth2'
+    compile 'org.springframework.cloud:spring-cloud-starter-config'
+	compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.cloud:spring-cloud-starter-feign'
+	compile 'org.springframework.cloud:spring-cloud-starter-eureka'
+    compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	compile 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+	compile 'org.springframework.cloud:spring-cloud-netflix-hystrix-stream'
+    compile 'org.springframework.boot:spring-boot-starter-test'
+	compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
+	compile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
+    compile 'com.jayway.jsonpath:json-path'
+    compile 'org.pojomatic:pojomatic:2.0.1'
+
+    testCompile(
+            'junit:junit:4.12',
+            'org.codehaus.groovy:groovy-all:2.4.11',
+            'org.spockframework:spock-core:1.1-groovy-2.4',
+            'org.springframework.boot:spring-boot-starter-test'
+    )
+//    testCompile 'org.springframework.boot:spring-boot-starter-test'
+//    testCompile 'org.codehaus.groovy:groovy-all:2.4.10'
+//    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+}
+
+test {
+    useJUnit {
+        includeCategories 'com.eodessa.appointment.UnitTest'
+    }
+    testLogging {
+        showStandardStreams = true
+    }
+}
+
+task image(type: Docker, dependsOn: build ) {
+    applicationName = jar.baseName
+    dockerfile = file('Dockerfile')
+    doFirst {
+        copy {
+            from jar
+            into "${stageDir}/target"
+
+        }
+    }
+}
+
+task publishImage(type: Docker, dependsOn: build ) {
+    applicationName = jar.baseName
+    push = true
+    dockerfile = file('Dockerfile')
+    doFirst {
+        copy {
+            from jar
+            into "${stageDir}/target"
+
+        }
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.0"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+}
+
+afterReleaseBuild.dependsOn publishImage
+
+release {
+    revertOnFail = true
+    tagTemplate = '$name-$version'
+    buildTasks = ['clean', 'build', 'install']
+    git {
+        requireBranch = ''
+        commitVersionFileOnly = false
+    }
+}
