@@ -1,8 +1,6 @@
 version: '3'
 networks:
   prodnetwork:
-    external: true
-
 services:
     rabbitmq:
         container_name: rabbitmq

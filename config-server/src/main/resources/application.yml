@@ -10,6 +10,8 @@ security:
     name: user
     password: ${CONFIG_SERVICE_PASSWORD}
 spring:
+  application:
+    name: config-server
   cloud:
     config:
       enabled: false
@@ -24,9 +26,3 @@ spring:
 #          - 'catalog*'
         encrypt:
           enabled: false
-  application:
-    name: config-server
-  profiles:
-     active: native         
-          
-            
