@@ -1,6 +1,8 @@
 version: '3'
 networks:
   prodnetwork:
+    external: true
+
 services:
     rabbitmq:
         container_name: rabbitmq
@@ -24,8 +26,6 @@ services:
         environment:
           CONFIG_SERVICE_PASSWORD: eodessa
           ENCRYPT_KEY: eodessa
-        expose:
-          - "8888"
         networks:
           - prodnetwork
         volumes:
@@ -288,7 +288,7 @@ services:
           MONGODB_PASSWORD: eodessa
           CONFIG_URI: http://config-server:8888
         image: eodessa/appointment-service:1.0.1-SNAPSHOT
-        #restart: always
+        restart: always
         expose:
           - "6200"
         networks:

@@ -2,7 +2,7 @@
 server:
   port: 8888
 logging:
-  path: /opt/logs
+  path: /var/log/
 security:
   basic:
     enabled: true
@@ -12,6 +12,7 @@ security:
 spring:
   cloud:
     config:
+      enabled: false
       server:
         native:
           search-locations: classpath:/shared
