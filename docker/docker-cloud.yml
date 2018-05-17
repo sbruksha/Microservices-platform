@@ -41,7 +41,7 @@ services:
         container_name: gateway
         environment:
           CONFIG_SERVICE_PASSWORD: eodessa
-          CONFIG_URI: http://config-server:8888
+          CONFIG_URI: http://localhost:8888
         image: eodessa/gateway:1.0.1-SNAPSHOT
         restart: always
         ports:
@@ -60,7 +60,7 @@ services:
         ports:
           - "8761:8761" # the first port number is the host port.  Don't change the second / container port
         environment:
-          CONFIG_URI: http://config-server:8888
+          CONFIG_URI: http://localhost:8888
           EUREKA_URI: http://eureka-server:8761/eureka
         expose:
           - "8761"
@@ -71,7 +71,7 @@ services:
     auth-server:
         container_name: auth-server
         environment:
-          CONFIG_URI: http://config-server:8888
+          CONFIG_URI: http://localhost:8888
           CONFIG_SERVICE_PASSWORD: eodessa
           NOTIFICATION_SERVICE_PASSWORD: eodessa
           STATISTICS_SERVICE_PASSWORD: eodessa
@@ -109,7 +109,7 @@ services:
         container_name: monitoring
         environment:
           CONFIG_SERVICE_PASSWORD: eodessa
-          CONFIG_URI: http://config-server:8888
+          CONFIG_URI: http://localhost:8888
         image: eodessa/monitoring:1.0.1-SNAPSHOT
         restart: always
         expose:
@@ -132,7 +132,7 @@ services:
           CONFIG_SERVICE_PASSWORD: eodessa
           ACCOUNT_SERVICE_PASSWORD: eodessa
           MONGODB_PASSWORD: eodessa
-          CONFIG_URI: http://config-server:8888
+          CONFIG_URI: http://localhost:8888
         image: eodessa/account-service:1.0.1-SNAPSHOT
         restart: always
         expose:
@@ -170,7 +170,7 @@ services:
           MONGODB_PASSWORD: eodessa
           NOTIFICATION_SERVICE_PASSWORD: eodessa
           EUREKA_URI: http://eureka-server:8761/eureka
-          CONFIG_URI: http://config-server:8888
+          CONFIG_URI: http://localhost:8888
         image: eodessa/notification-service:1.0.1-SNAPSHOT
         restart: always
         expose:
@@ -254,7 +254,7 @@ services:
           CONFIG_SERVICE_PASSWORD: eodessa
           STORE_SERVICE_PASSWORD: eodessa
           MONGODB_PASSWORD: eodessa
-          CONFIG_URI: http://config-server:8888
+          CONFIG_URI: http://localhost:8888
         image: eodessa/store-service:1.0.1-SNAPSHOT
         restart: always
         expose:
@@ -289,7 +289,7 @@ services:
           CONFIG_SERVICE_PASSWORD: eodessa
           APPOINTMENT_SERVICE_PASSWORD: eodessa
           MONGODB_PASSWORD: eodessa
-          CONFIG_URI: http://config-server:8888
+          CONFIG_URI: http://localhost:8888
         image: eodessa/appointment-service:1.0.1-SNAPSHOT
         #restart: always
         expose:
