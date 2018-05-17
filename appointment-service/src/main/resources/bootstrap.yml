@@ -10,3 +10,4 @@ spring:
       discovery:
         enabled: true
         serviceId: config-server
+      profile: default
