@@ -61,7 +61,7 @@ dependencies {
 test {
     useJUnit {
         includeCategories 'com.eodessa.auth.UnitTest'
-        includeCategories 'com.eodessa.auth.IntegrationTest'
+//        includeCategories 'com.eodessa.auth.IntegrationTest'
     }
     testLogging {
         showStandardStreams = true

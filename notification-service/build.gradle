@@ -64,7 +64,7 @@ dependencies {
 test {
     useJUnit {
         includeCategories 'com.eodessa.notification.UnitTest'
-        includeCategories 'com.eodessa.notification.IntegrationTest'
+//        includeCategories 'com.eodessa.notification.IntegrationTest'
     }
     testLogging {
         showStandardStreams = true
