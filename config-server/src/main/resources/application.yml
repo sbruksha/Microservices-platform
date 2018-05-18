@@ -12,7 +12,6 @@ logging:
 spring:
   cloud:
     config:
-      enabled: false
       server:
         native:
           search-locations: classpath:/shared
