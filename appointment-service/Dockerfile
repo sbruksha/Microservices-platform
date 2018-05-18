@@ -1,4 +1,4 @@
-FROM java:8
+FROM openjdk:9-jdk-slim
 
 MAINTAINER Sergiy Bruksha <sbruksha@gmail.com>
 
