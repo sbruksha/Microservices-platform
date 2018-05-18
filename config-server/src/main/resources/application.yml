@@ -28,3 +28,14 @@ spring:
     name: config-server
   profiles:
      active: native
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: false
+  instance:
+    instance-id: ${spring.application.name}_${random.int}:${server.port}
+    preferIpAddress: false
+    hostname: config-server

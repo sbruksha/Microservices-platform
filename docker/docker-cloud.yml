@@ -22,8 +22,8 @@ services:
         ports:
           - "8888:8888"
         environment:
-          CONFIG_SERVICE_PASSWORD: eodessa
-          ENCRYPT_KEY: eodessa
+          - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8001
+                -Dspring.profiles.active=default
         networks:
           - prodnetwork
         volumes:
@@ -281,12 +281,10 @@ services:
     appointment-service:
         container_name: appointment-service
         environment:
-          CONFIG_SERVICE_PASSWORD: eodessa
-          APPOINTMENT_SERVICE_PASSWORD: eodessa
-          MONGODB_PASSWORD: eodessa
-          CONFIG_URI: http://config-server:8888
+          - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8001
+                -Dspring.profiles.active=default
         image: eodessa/appointment-service:1.0.1-SNAPSHOT
-        restart: always
+        #restart: always
         expose:
           - "6200"
         networks:
@@ -295,8 +293,6 @@ services:
           - "6200:6200"
         volumes:
           - ./../logs/appointment-service/:/var/log
-        links:
-          - "config-server:config-server"
         depends_on:
           - config-server
         #logging:

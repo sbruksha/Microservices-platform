@@ -30,8 +30,6 @@ dependencyManagement {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:Edgware.SR3"
     }
     dependencies {
-        //	Internal
-
         // External
         dependency "com.fasterxml.jackson.core:jackson-databind:2.8.11.1"
         dependency "ch.qos.logback:logback-core:1.2.3"

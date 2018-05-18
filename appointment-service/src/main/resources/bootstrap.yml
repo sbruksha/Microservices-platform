@@ -3,9 +3,9 @@ spring:
     name: appointment-service
   cloud:
     config:
-      uri: ${CONFIG_URI:http://config-server:8888}
+      uri: http://config-server:8888
       fail-fast: true
-      password: ${CONFIG_SERVICE_PASSWORD}
+      password: eodessa
       username: user
       discovery:
         enabled: true
