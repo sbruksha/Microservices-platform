@@ -1,9 +1,6 @@
-package com.eodessa.appointment.controller
+package com.eodessa.store.controller
 
-import com.eodessa.appointment.domain.Appointment
-import com.eodessa.appointment.service.AppointmentService
 import org.junit.experimental.categories.Category
-import com.eodessa.appointment.IntegrationTest
 import org.springframework.http.ResponseEntity
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -15,22 +12,24 @@ import org.springframework.util.MultiValueMap
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
+import com.eodessa.store.IntegrationTest
+
 import static com.toomuchcoding.jsonassert.JsonAssertion.assertThatJson
 
 @Category(IntegrationTest.class)
-class AppointmentControllerSpec extends Specification {
+class StoreControllerSpec extends Specification {
 
-    def appointmentService = "http://localhost:6200"
+    def storeService = "http://localhost:6100"
     def restTemplate = new RestTemplate()
     def jwt = "Bearer abcdef"
     def headers = new LinkedMultiValueMap<>() as MultiValueMap<String, String>
     def setup(){ headers.setAll(["Authorization": "jwt" ])
     }
 
-    @Unroll("Expect valid appointment info when calling getAppointmentByName(#name)")
-    "should get appointment details by name"() {
-        given: "appointments endpoint"
-        def endpoint = "$appointmentService/appointments/$name"
+    @Unroll("Expect valid store info when calling getByName(#name)")
+    "should get store details by name"() {
+        given: "store endpoint"
+        def endpoint = "$storeService/stores/$name"
         when: "the endpoint is called"
         def response = restTemplate.exchange(endpoint, HttpMethod.GET, new HttpEntity<String>(headers), String)
         then: "Verify the status code = 200"
@@ -38,9 +37,8 @@ class AppointmentControllerSpec extends Specification {
         and: "Verify the contents of the body"
         DocumentContext parsedJson = JsonPath.parse(response.getBody().toString())
         assert(parsedJson !=null)
-        assertThatJson(parsedJson).field("id").isEqualTo("demo")
-        assertThatJson(parsedJson).field("['start']").matches("-?(\\d*\\.\\d+|\\d+)")
-        assertThatJson(parsedJson).field("['description']").matches("[\\S\\s]+")
+        assertThatJson(parsedJson).field("name").isEqualTo("demo")
+        assertThatJson(parsedJson).field("['storename']").matches("[\\S\\s]+")
         where:
         num | name
         1   | "demo"

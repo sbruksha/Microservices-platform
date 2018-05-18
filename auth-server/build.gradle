@@ -48,10 +48,26 @@ dependencies {
 	compile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
     compile 'com.jayway.jsonpath:json-path'
 
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
-    testCompile 'org.codehaus.groovy:groovy-all:2.4.10'
-    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+    testCompile(
+            'junit:junit:4.12',
+            'org.codehaus.groovy:groovy-all:2.4.11',
+            'org.spockframework:spock-core:1.1-groovy-2.4',
+            'org.springframework.boot:spring-boot-starter-test',
+            'org.spockframework:spock-spring',
+            'org.springframework.cloud:spring-cloud-starter-contract-stub-runner'
+    )
 }
+
+test {
+    useJUnit {
+        includeCategories 'com.eodessa.auth.UnitTest'
+//        includeCategories 'com.eodessa.auth.IntegrationTest'
+    }
+    testLogging {
+        showStandardStreams = true
+    }
+}
+
 
 task image(type: Docker, dependsOn: build ) {
     applicationName = jar.baseName

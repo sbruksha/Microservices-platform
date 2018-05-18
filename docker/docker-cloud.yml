@@ -1,9 +1,6 @@
 version: '3'
 networks:
   prodnetwork:
-volumes:
-  registry-stuff:
-    driver: local
 services:
     rabbitmq:
         container_name: rabbitmq
@@ -27,12 +24,17 @@ services:
         environment:
           CONFIG_SERVICE_PASSWORD: eodessa
           ENCRYPT_KEY: eodessa
-        expose:
-          - "8888"
         networks:
           - prodnetwork
         volumes:
           - ./../logs/config-server/:/var/log
+<<<<<<< HEAD
+=======
+        logging:
+          options:
+            max-size: "10m"
+            max-file: "10"
+>>>>>>> 9a09ad6f68534091846954a455be25fa2c10c118
     gateway:
         container_name: gateway
         environment:
@@ -44,6 +46,8 @@ services:
           - 80:4000
         networks:
           - prodnetwork
+        volumes:
+          - ./../logs/gateway/:/var/log
         logging:
           options:
             max-size: "10m"
@@ -114,7 +118,7 @@ services:
         volumes:
           - ./../logs/monitoring/:/var/log
         ports:
-          - "9000:8080"
+          - "9005:8080"
           - "8989:8989"
         logging:
           options:
@@ -133,8 +137,8 @@ services:
           - "6000"
         networks:
           - prodnetwork
-        #volumes:
-        #  - ./../logs/account-service/:/var/log
+        volumes:
+          - ./../logs/account-service/:/var/log
         ports:
           - "6000:6000"
 #        logging:
@@ -193,6 +197,7 @@ services:
           options:
             max-size: "10m"
             max-file: "10"
+<<<<<<< HEAD
     fluentd:
         container_name: fluentd
         image: eodessa/fluentd:1.0.1-SNAPSHOT
@@ -243,6 +248,57 @@ services:
           - prodnetwork
         ports:
           - "5601:5601"
+=======
+#    fluentd:
+#        container_name: fluentd
+#        image: eodessa/fluentd:1.0.1-SNAPSHOT
+#        #build: ./../../fluentd
+#        volumes:
+#          - ./../fluentd/fluent.conf:/fluentd/etc/fluent.conf
+#        networks:
+#          - prodnetwork
+#        ports:
+#          - "24224:24224"
+#          - "24224:24224/udp"
+#        logging:
+#          driver: "json-file"
+#          options:
+#            max-size: 100m
+#            max-file: "5"
+#    elasticsearch:
+#        container_name: elasticsearch
+#        image: eodessa/elasticsearch:1.0.1-SNAPSHOT
+#        #image: elasticsearch:latest
+#        #volumes:
+#        #  - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+#        ports:
+#          - "9200:9200"
+#          - "9300:9300"
+#        environment:
+#          ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+#          ELASTIC_USERNAME: "elastic"
+#          ELASTIC_PASSWORD: "changeme"
+#          http.cors.enabled: "true"
+#          http.cors.allow-origin: "*"
+#        expose:
+#          - 9200
+#        networks:
+#          - prodnetwork
+#    kibana:
+#        container_name: kibana
+#        #image: docker.elastic.co/kibana/kibana:5.5.3
+#        image: eodessa/kibana:1.0.1-SNAPSHOT
+#        #build: ./../../kibana
+#        #volumes:
+#        #  - ./../../kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
+#        environment:
+#          SERVER_NAME: kibana
+#          ELASTICSEARCH_URL: http://elasticsearch:9200
+#        networks:
+#          - prodnetwork
+#        ports:
+#          - "5601:5601"
+>>>>>>> 9a09ad6f68534091846954a455be25fa2c10c118
     store-service:
         container_name: store-service
         environment:
@@ -293,6 +349,12 @@ services:
           - prodnetwork
         ports:
           - "6200:6200"
+        volumes:
+          - ./../logs/appointment-service/:/var/log
+        links:
+          - "config-server:config-server"
+        depends_on:
+          - config-server
         #logging:
         #  driver: "fluentd"
         #  options:

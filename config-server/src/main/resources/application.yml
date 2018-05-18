@@ -2,7 +2,7 @@
 server:
   port: 8888
 logging:
-  path: /opt/logs
+  path: /var/log/
 security:
   basic:
     enabled: true
@@ -12,6 +12,7 @@ security:
 spring:
   cloud:
     config:
+      enabled: false
       server:
         native:
           search-locations: classpath:/shared
@@ -26,6 +27,14 @@ spring:
   application:
     name: config-server
   profiles:
-     active: native         
-          
-            
+     active: native
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: false
+  instance:
+    instance-id: ${spring.application.name}_${random.int}:${server.port}
+    preferIpAddress: false
+    hostname: config-server
