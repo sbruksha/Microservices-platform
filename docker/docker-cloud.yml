@@ -95,6 +95,7 @@ services:
           - prodnetwork
         volumes:
           - ./../logs/auth-mongodb/:/var/log
+          - ./../logs/mongod.conf:/etc/mongod.conf
         logging:
           options:
             max-size: "10m"
@@ -153,6 +154,7 @@ services:
           - prodnetwork
         volumes:
           - ./../logs/account-mongodb/:/var/log
+          - ./../logs/mongod.conf:/etc/mongod.conf
         logging:
           options:
             max-size: "10m"
@@ -189,6 +191,7 @@ services:
           - prodnetwork
         volumes:
           - ./../logs/notification-mongodb/:/var/log
+          - ./../logs/mongod.conf:/etc/mongod.conf
         logging:
           options:
             max-size: "10m"
@@ -273,6 +276,7 @@ services:
           - prodnetwork
         volumes:
           - ./../logs/store-mongodb/:/var/log
+          - ./../logs/mongod.conf:/etc/mongod.conf
         logging:
           options:
             max-size: "10m"
@@ -309,6 +313,7 @@ services:
           - prodnetwork
         volumes:
           - ./../logs/appointment-mongodb/:/var/log
+          - ./../logs/mongod.conf:/etc/mongod.conf
         logging:
           options:
             max-size: "10m"
