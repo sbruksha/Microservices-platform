@@ -23,12 +23,6 @@ zuul:
         stripPrefix: false
         sensitiveHeaders:
 
-    config-test:
-        path: /test/**
-        serviceId: config-test
-        stripPrefix: false
-        sensitiveHeaders:
-
     account-service:
         path: /accounts/**
         serviceId: account-service
