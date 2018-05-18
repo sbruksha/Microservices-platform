@@ -45,8 +45,6 @@ dependencies {
 	compile 'org.springframework.cloud:spring-cloud-netflix-hystrix-stream'
     compile 'org.springframework.boot:spring-boot-starter-test'
 	compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
-    compile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
-    compile 'com.jayway.jsonpath:json-path'
 
     testCompile(
             'junit:junit:4.12',

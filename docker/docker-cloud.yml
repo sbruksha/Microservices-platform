@@ -120,79 +120,79 @@ services:
           options:
             max-size: "10m"
             max-file: "10"
-#    account-service:
-#        container_name: account-service
-#        environment:
-#          CONFIG_SERVICE_PASSWORD: eodessa
-#          ACCOUNT_SERVICE_PASSWORD: eodessa
-#          MONGODB_PASSWORD: eodessa
-#          CONFIG_URI: http://config-server:8888
-#        image: eodessa/account-service:1.0.1-SNAPSHOT
-#        restart: always
-#        expose:
-#          - "6000"
-#        networks:
-#          - prodnetwork
-#        volumes:
-#          - ./../logs/account-service/:/var/log
-#        ports:
-#          - "6000:6000"
+    account-service:
+        container_name: account-service
+        environment:
+          CONFIG_SERVICE_PASSWORD: eodessa
+          ACCOUNT_SERVICE_PASSWORD: eodessa
+          MONGODB_PASSWORD: eodessa
+          CONFIG_URI: http://config-server:8888
+        image: eodessa/account-service:1.0.1-SNAPSHOT
+        restart: always
+        expose:
+          - "6000"
+        networks:
+          - prodnetwork
+        volumes:
+          - ./../logs/account-service/:/var/log
+        ports:
+          - "6000:6000"
 #        logging:
 #          driver: "fluentd"
 #          options:
 #            fluentd-address: 0.0.0.0:24224 #sometimes fluentd
 #            tag: account.{{.FullID}}
-#    account-mongodb:
-#        container_name: account-mongodb
-#        environment:
-#          INIT_DUMP: account-service-dump.js
-#          MONGODB_PASSWORD: eodessa
-#        image: eodessa/mongodb:1.0.1-SNAPSHOT
-#        restart: always
-#        networks:
-#          - prodnetwork
-#        volumes:
-#          - ./../logs/account-mongodb/:/var/log
-#        logging:
-#          options:
-#            max-size: "10m"
-#            max-file: "10"
-#    notification-service:
-#        container_name: notification-service
-#        environment:
-#          CONFIG_SERVICE_PASSWORD: eodessa
-#          MONGODB_PASSWORD: eodessa
-#          NOTIFICATION_SERVICE_PASSWORD: eodessa
-#          EUREKA_URI: http://eureka-server:8761/eureka
-#          CONFIG_URI: http://config-server:8888
-#        image: eodessa/notification-service:1.0.1-SNAPSHOT
-#        restart: always
-#        expose:
-#          - "8000"
-#        networks:
-#          - prodnetwork
-#        volumes:
-#          - ./../logs/notification-service/:/var/log
-#        ports:
-#          - "8000:8000"
-#        logging:
-#          options:
-#            max-size: "10m"
-#            max-file: "10"
-#    notification-mongodb:
-#        container_name: notification-mongodb
-#        image: eodessa/mongodb:1.0.1-SNAPSHOT
-#        restart: always
-#        environment:
-#          MONGODB_PASSWORD: eodessa
-#        networks:
-#          - prodnetwork
-#        volumes:
-#          - ./../logs/notification-mongodb/:/var/log
-#        logging:
-#          options:
-#            max-size: "10m"
-#            max-file: "10"
+    account-mongodb:
+        container_name: account-mongodb
+        environment:
+          INIT_DUMP: account-service-dump.js
+          MONGODB_PASSWORD: eodessa
+        image: eodessa/mongodb:1.0.1-SNAPSHOT
+        restart: always
+        networks:
+          - prodnetwork
+        volumes:
+          - ./../logs/account-mongodb/:/var/log
+        logging:
+          options:
+            max-size: "10m"
+            max-file: "10"
+    notification-service:
+        container_name: notification-service
+        environment:
+          CONFIG_SERVICE_PASSWORD: eodessa
+          MONGODB_PASSWORD: eodessa
+          NOTIFICATION_SERVICE_PASSWORD: eodessa
+          EUREKA_URI: http://eureka-server:8761/eureka
+          CONFIG_URI: http://config-server:8888
+        image: eodessa/notification-service:1.0.1-SNAPSHOT
+        restart: always
+        expose:
+          - "8000"
+        networks:
+          - prodnetwork
+        volumes:
+          - ./../logs/notification-service/:/var/log
+        ports:
+          - "8000:8000"
+        logging:
+          options:
+            max-size: "10m"
+            max-file: "10"
+    notification-mongodb:
+        container_name: notification-mongodb
+        image: eodessa/mongodb:1.0.1-SNAPSHOT
+        restart: always
+        environment:
+          MONGODB_PASSWORD: eodessa
+        networks:
+          - prodnetwork
+        volumes:
+          - ./../logs/notification-mongodb/:/var/log
+        logging:
+          options:
+            max-size: "10m"
+            max-file: "10"
 #    fluentd:
 #        container_name: fluentd
 #        image: eodessa/fluentd:1.0.1-SNAPSHOT
@@ -242,74 +242,74 @@ services:
 #          - prodnetwork
 #        ports:
 #          - "5601:5601"
-#    store-service:
-#        container_name: store-service
-#        environment:
-#          CONFIG_SERVICE_PASSWORD: eodessa
-#          STORE_SERVICE_PASSWORD: eodessa
-#          MONGODB_PASSWORD: eodessa
-#          CONFIG_URI: http://config-server:8888
-#        image: eodessa/store-service:1.0.1-SNAPSHOT
-#        restart: always
-#        expose:
-#          - "6100"
-#        networks:
-#          - prodnetwork
-#        ports:
-#          - "6100:6100"
-#        #logging:
-#        #  driver: "fluentd"
-#        #  options:
-#        #    fluentd-address: 0.0.0.0:24224 #sometimes fluentd
-#        #    tag: store.{{.FullID}}
-#    store-mongodb:
-#        container_name: store-mongodb
-#        environment:
-#          INIT_DUMP: store-service-dump.js
-#          MONGODB_PASSWORD: eodessa
-#        image: eodessa/mongodb:1.0.1-SNAPSHOT
-#        restart: always
-#        networks:
-#          - prodnetwork
-#        volumes:
-#          - ./../logs/store-mongodb/:/var/log
-#        logging:
-#          options:
-#            max-size: "10m"
-#            max-file: "10"
-#    appointment-service:
-#        container_name: appointment-service
-#        environment:
-#          CONFIG_SERVICE_PASSWORD: eodessa
-#          APPOINTMENT_SERVICE_PASSWORD: eodessa
-#          MONGODB_PASSWORD: eodessa
-#          CONFIG_URI: http://config-server:8888
-#        image: eodessa/appointment-service:1.0.1-SNAPSHOT
-#        restart: always
-#        networks:
-#          - prodnetwork
-#        ports:
-#          - "6200:6200"
-#        volumes:
-#          - ./../logs/appointment-service/:/var/log
-#        depends_on:
-#          - config-server
-#        logging:
-#          options:
-#            max-size: "10m"
-#            max-file: "10"
-#    appointment-mongodb:
-#        container_name: appointment-mongodb
-#        environment:
-#          INIT_DUMP: appointment-service-dump.js
-#          MONGODB_PASSWORD: eodessa
-#        image: eodessa/mongodb:1.0.1-SNAPSHOT
-#        restart: always
-#        networks:
-#          - prodnetwork
-#        volumes:
-#          - ./../logs/appointment-mongodb/:/var/log
-#        logging:
-#          options:
-#            max-size: "10m"
-#            max-file: "10"
+    store-service:
+        container_name: store-service
+        environment:
+          CONFIG_SERVICE_PASSWORD: eodessa
+          STORE_SERVICE_PASSWORD: eodessa
+          MONGODB_PASSWORD: eodessa
+          CONFIG_URI: http://config-server:8888
+        image: eodessa/store-service:1.0.1-SNAPSHOT
+        restart: always
+        expose:
+          - "6100"
+        networks:
+          - prodnetwork
+        ports:
+          - "6100:6100"
+        #logging:
+        #  driver: "fluentd"
+        #  options:
+        #    fluentd-address: 0.0.0.0:24224 #sometimes fluentd
+        #    tag: store.{{.FullID}}
+    store-mongodb:
+        container_name: store-mongodb
+        environment:
+          INIT_DUMP: store-service-dump.js
+          MONGODB_PASSWORD: eodessa
+        image: eodessa/mongodb:1.0.1-SNAPSHOT
+        restart: always
+        networks:
+          - prodnetwork
+        volumes:
+          - ./../logs/store-mongodb/:/var/log
+        logging:
+          options:
+            max-size: "10m"
+            max-file: "10"
+    appointment-service:
+        container_name: appointment-service
+        environment:
+          CONFIG_SERVICE_PASSWORD: eodessa
+          APPOINTMENT_SERVICE_PASSWORD: eodessa
+          MONGODB_PASSWORD: eodessa
+          CONFIG_URI: http://config-server:8888
+        image: eodessa/appointment-service:1.0.1-SNAPSHOT
+        restart: always
+        networks:
+          - prodnetwork
+        ports:
+          - "6200:6200"
+        volumes:
+          - ./../logs/appointment-service/:/var/log
+        depends_on:
+          - config-server
+        logging:
+          options:
+            max-size: "10m"
+            max-file: "10"
+    appointment-mongodb:
+        container_name: appointment-mongodb
+        environment:
+          INIT_DUMP: appointment-service-dump.js
+          MONGODB_PASSWORD: eodessa
+        image: eodessa/mongodb:1.0.1-SNAPSHOT
+        restart: always
+        networks:
+          - prodnetwork
+        volumes:
+          - ./../logs/appointment-mongodb/:/var/log
+        logging:
+          options:
+            max-size: "10m"
+            max-file: "10"
