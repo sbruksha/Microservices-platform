@@ -3,12 +3,12 @@ server:
   port: 8888
 logging:
   path: /var/log/
-security:
-  basic:
-    enabled: true
-  user:
-    name: user
-    password: ${CONFIG_SERVICE_PASSWORD}
+#security:
+#  basic:
+#    enabled: true
+#  user:
+#    name: user
+#    password: ${CONFIG_SERVICE_PASSWORD}
 spring:
   cloud:
     config:
