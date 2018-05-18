@@ -280,11 +280,12 @@ services:
     appointment-service:
         container_name: appointment-service
         environment:
-          - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8001
+          CONFIG_SERVICE_PASSWORD: eodessa
+          APPOINTMENT_SERVICE_PASSWORD: eodessa
+          MONGODB_PASSWORD: eodessa
+          CONFIG_URI: http://config-server:8888
         image: eodessa/appointment-service:1.0.1-SNAPSHOT
-        #restart: always
-        expose:
-          - "6200"
+        restart: always
         networks:
           - prodnetwork
         ports:
@@ -293,11 +294,10 @@ services:
           - ./../logs/appointment-service/:/var/log
         depends_on:
           - config-server
-        #logging:
-        #  driver: "fluentd"
-        #  options:
-        #    fluentd-address: 0.0.0.0:24224 #sometimes fluentd
-        #    tag: appointment.{{.FullID}}
+        logging:
+          options:
+            max-size: "10m"
+            max-file: "10"
     appointment-mongodb:
         container_name: appointment-mongodb
         environment:

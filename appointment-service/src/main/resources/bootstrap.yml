@@ -7,7 +7,3 @@ spring:
       fail-fast: true
       password: eodessa
       username: user
-      discovery:
-        enabled: true
-        serviceId: config-server
-      profile: default
