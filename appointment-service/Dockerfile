@@ -1,4 +1,4 @@
-FROM openjdk:9-jdk-slim
+FROM alpine-java:base
 
 MAINTAINER Sergiy Bruksha <sbruksha@gmail.com>
 
