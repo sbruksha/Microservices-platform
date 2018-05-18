@@ -23,7 +23,7 @@ services:
           - "8888:8888"
         environment:
           - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8001
-                -Dspring.profiles.active=default
+            -Dspring.profiles.active=default
         networks:
           - prodnetwork
         volumes:
@@ -282,7 +282,7 @@ services:
         container_name: appointment-service
         environment:
           - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8001
-                -Dspring.profiles.active=default
+            -Dspring.profiles.active=default
         image: eodessa/appointment-service:1.0.1-SNAPSHOT
         #restart: always
         expose:
