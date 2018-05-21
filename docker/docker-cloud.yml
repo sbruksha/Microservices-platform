@@ -89,17 +89,15 @@ services:
         container_name: auth-mongodb
         environment:
           MONGODB_PASSWORD: eodessa
-        image: eodessa/mongodb:1.0.1-SNAPSHOT
+        image: eodessa/mongodb:latest
         restart: always
         networks:
           - prodnetwork
         volumes:
           - ./../logs/auth-mongodb/:/var/log
-          - ./../logs/mongod.conf:/etc/mongod.conf
-          - ./../logs/auth-mongo/:/data/db
-        command:
-          - '-f'
-          - '/etc/mongo.conf'
+#          - ./../logs/mongod.conf:/etc/mongod.conf
+#          - ./../logs/auth-mongo/:/data/db
+#        command: ["mongod", "-f", "/etc/mongod.conf"]
         logging:
           options:
             max-size: "10m"
@@ -152,17 +150,15 @@ services:
         environment:
           INIT_DUMP: account-service-dump.js
           MONGODB_PASSWORD: eodessa
-        image: eodessa/mongodb:1.0.1-SNAPSHOT
+        image: eodessa/mongodb:latest
         restart: always
         networks:
           - prodnetwork
         volumes:
           - ./../logs/account-mongodb/:/var/log
-          - ./../logs/mongod.conf:/etc/mongod.conf
-          - ./../logs/account-mongo/:/data/db
-        command:
-          - '-f'
-          - '/etc/mongo.conf'
+#          - ./../logs/mongod.conf:/etc/mongod.conf
+#          - ./../logs/account-mongo/:/data/db
+#        command: ["mongod", "-f", "/etc/mongod.conf"]
         logging:
           options:
             max-size: "10m"
@@ -191,7 +187,7 @@ services:
             max-file: "10"
     notification-mongodb:
         container_name: notification-mongodb
-        image: eodessa/mongodb:1.0.1-SNAPSHOT
+        image: eodessa/mongodb:latest
         restart: always
         environment:
           MONGODB_PASSWORD: eodessa
@@ -199,11 +195,9 @@ services:
           - prodnetwork
         volumes:
           - ./../logs/notification-mongodb/:/var/log
-          - ./../logs/mongod.conf:/etc/mongod.conf
-          - ./../logs/notif-mongo/:/data/db
-        command:
-          - '-f'
-          - '/etc/mongo.conf'
+#          - ./../logs/mongod.conf:/etc/mongod.conf
+#          - ./../logs/notif-mongo/:/data/db
+#        command: ["mongod", "-f", "/etc/mongod.conf"]
         logging:
           options:
             max-size: "10m"
@@ -282,17 +276,15 @@ services:
         environment:
           INIT_DUMP: store-service-dump.js
           MONGODB_PASSWORD: eodessa
-        image: eodessa/mongodb:1.0.1-SNAPSHOT
+        image: eodessa/mongodb:latest
         restart: always
         networks:
           - prodnetwork
         volumes:
           - ./../logs/store-mongodb/:/var/log
-          - ./../logs/mongod.conf:/etc/mongod.conf
-          - ./../logs/store-mongo/:/data/db
-        command:
-          - '-f'
-          - '/etc/mongo.conf'
+#          - ./../logs/mongod.conf:/etc/mongod.conf
+#          - ./../logs/store-mongo/:/data/db
+#        command: ["mongod", "-f", "/etc/mongod.conf"]
         logging:
           options:
             max-size: "10m"
@@ -323,17 +315,15 @@ services:
         environment:
           INIT_DUMP: appointment-service-dump.js
           MONGODB_PASSWORD: eodessa
-        image: eodessa/mongodb:1.0.1-SNAPSHOT
+        image: eodessa/mongodb:latest
         restart: always
         networks:
           - prodnetwork
         volumes:
           - ./../logs/appointment-mongodb/:/var/log
-          - ./../logs/mongod.conf:/etc/mongod.conf
-          - ./../logs/appointment-mongo/:/data/db
-        command:
-          - '-f'
-          - '/etc/mongo.conf'
+#          - ./../logs/mongod.conf:/etc/mongod.conf
+#          - ./../logs/appointment-mongo/:/data/db
+#        command: ["mongod", "-f", "/etc/mongod.conf"]
         logging:
           options:
             max-size: "10m"

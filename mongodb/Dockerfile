@@ -1,4 +1,4 @@
-FROM mongo:3.7.9-jessie
+FROM mongo:3.4
 
 MAINTAINER Sergiy Bruksha <sbruksha@gmail.com>
 

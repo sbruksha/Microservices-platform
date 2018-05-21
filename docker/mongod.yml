@@ -26,7 +26,7 @@
 # network interfaces
 net:
   port: 27017
-  bindIp:  127.0.0.1  # Listen to local interface only, comment to listen on all interfaces.
+  bindIp:  0.0.0.0
 
 
 security:
