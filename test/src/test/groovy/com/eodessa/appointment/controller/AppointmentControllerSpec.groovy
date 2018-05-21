@@ -18,7 +18,7 @@ import static com.toomuchcoding.jsonassert.JsonAssertion.assertThatJson
 @Category(IntegrationTest.class)
 class AppointmentControllerSpec extends Specification {
 
-    def appointmentService = "http://localhost"
+    def appointmentService = "http://spinnaker.eodessa.com"
     def restTemplate = new RestTemplate()
     def jwt = "Bearer abcdef"
     def headers = new LinkedMultiValueMap<>() as MultiValueMap<String, String>
