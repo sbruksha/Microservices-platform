@@ -19,7 +19,7 @@ import static com.toomuchcoding.jsonassert.JsonAssertion.assertThatJson
 @Category(IntegrationTest.class)
 class AccountControllerSpec extends Specification {
 
-    def accountService = "http://localhost:6000"
+    def accountService = "http://localhost"
     def restTemplate = new RestTemplate()
     def jwt = "Bearer abcdef"
     def headers = new LinkedMultiValueMap<>() as MultiValueMap<String, String>
