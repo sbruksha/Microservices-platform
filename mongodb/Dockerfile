@@ -1,4 +1,5 @@
-FROM mongo:3
+FROM mongo:3.7.9-jessie
+
 MAINTAINER Sergiy Bruksha <sbruksha@gmail.com>
 
 ADD init.sh /init.sh

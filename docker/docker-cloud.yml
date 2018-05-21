@@ -96,7 +96,10 @@ services:
         volumes:
           - ./../logs/auth-mongodb/:/var/log
           - ./../logs/mongod.conf:/etc/mongod.conf
-        command: ["mongod", "-f", "/etc/mongod.conf"]
+          - ./../logs/appointment-mongo/:/var/lib/mongo
+        command:
+          - '-f'
+          - '/etc/mongo.conf'
         logging:
           options:
             max-size: "10m"
@@ -156,7 +159,10 @@ services:
         volumes:
           - ./../logs/account-mongodb/:/var/log
           - ./../logs/mongod.conf:/etc/mongod.conf
-        command: ["mongod", "-f", "/etc/mongod.conf"]
+          - ./../logs/appointment-mongo/:/var/lib/mongo
+        command:
+          - '-f'
+          - '/etc/mongo.conf'
         logging:
           options:
             max-size: "10m"
@@ -194,7 +200,10 @@ services:
         volumes:
           - ./../logs/notification-mongodb/:/var/log
           - ./../logs/mongod.conf:/etc/mongod.conf
-        command: ["mongod", "-f", "/etc/mongod.conf"]
+          - ./../logs/appointment-mongo/:/var/lib/mongo
+        command:
+          - '-f'
+          - '/etc/mongo.conf'
         logging:
           options:
             max-size: "10m"
@@ -280,7 +289,10 @@ services:
         volumes:
           - ./../logs/store-mongodb/:/var/log
           - ./../logs/mongod.conf:/etc/mongod.conf
-        command: ["mongod", "-f", "/etc/mongod.conf"]
+          - ./../logs/appointment-mongo/:/var/lib/mongo
+        command:
+          - '-f'
+          - '/etc/mongo.conf'
         logging:
           options:
             max-size: "10m"
@@ -318,7 +330,10 @@ services:
         volumes:
           - ./../logs/appointment-mongodb/:/var/log
           - ./../logs/mongod.conf:/etc/mongod.conf
-        command: ["mongod", "-f", "/etc/mongod.conf"]
+          - ./../logs/appointment-mongo/:/var/lib/mongo
+        command:
+          - '-f'
+          - '/etc/mongo.conf'
         logging:
           options:
             max-size: "10m"
