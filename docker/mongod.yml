@@ -10,10 +10,10 @@
 #  path: /var/log/mongodb/mongod.log
 
 # Where and how to store data.
-storage:
-  dbPath: /var/lib/mongo
-  journal:
-    enabled: true
+# storage:
+#  dbPath: /data/db
+#  journal:
+#    enabled: true
 #  engine:
 #  mmapv1:
 #  wiredTiger:
@@ -26,7 +26,7 @@ storage:
 # network interfaces
 net:
   port: 27017
-  bindIp: 127.0.0.1  # Listen to local interface only, comment to listen on all interfaces.
+  bindIp:  127.0.0.1  # Listen to local interface only, comment to listen on all interfaces.
 
 
 security:

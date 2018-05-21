@@ -96,7 +96,7 @@ services:
         volumes:
           - ./../logs/auth-mongodb/:/var/log
           - ./../logs/mongod.conf:/etc/mongod.conf
-          - ./../logs/appointment-mongo/:/var/lib/mongo
+          - ./../logs/auth-mongo/:/data/db
         command:
           - '-f'
           - '/etc/mongo.conf'
@@ -159,7 +159,7 @@ services:
         volumes:
           - ./../logs/account-mongodb/:/var/log
           - ./../logs/mongod.conf:/etc/mongod.conf
-          - ./../logs/appointment-mongo/:/var/lib/mongo
+          - ./../logs/account-mongo/:/data/db
         command:
           - '-f'
           - '/etc/mongo.conf'
@@ -200,7 +200,7 @@ services:
         volumes:
           - ./../logs/notification-mongodb/:/var/log
           - ./../logs/mongod.conf:/etc/mongod.conf
-          - ./../logs/appointment-mongo/:/var/lib/mongo
+          - ./../logs/notif-mongo/:/data/db
         command:
           - '-f'
           - '/etc/mongo.conf'
@@ -289,7 +289,7 @@ services:
         volumes:
           - ./../logs/store-mongodb/:/var/log
           - ./../logs/mongod.conf:/etc/mongod.conf
-          - ./../logs/appointment-mongo/:/var/lib/mongo
+          - ./../logs/store-mongo/:/data/db
         command:
           - '-f'
           - '/etc/mongo.conf'
@@ -330,7 +330,7 @@ services:
         volumes:
           - ./../logs/appointment-mongodb/:/var/log
           - ./../logs/mongod.conf:/etc/mongod.conf
-          - ./../logs/appointment-mongo/:/var/lib/mongo
+          - ./../logs/appointment-mongo/:/data/db
         command:
           - '-f'
           - '/etc/mongo.conf'
