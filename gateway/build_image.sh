@@ -6,7 +6,7 @@ if [ -z $TAG ]; then
     TAG="latest"
 fi
 
-rm -rf target/*.jar
-mvn package spring-boot:repackage
+rm -rf build/libs/*.jar
+./gradlew clean build
 
 docker build -t eodessa/gateway:$TAG -f $DIR/Dockerfile $DIR

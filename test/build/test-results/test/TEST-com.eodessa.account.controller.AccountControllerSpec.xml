@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.eodessa.account.controller.AccountControllerSpec" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-05-21T21:38:38" hostname="186590d2a747" time="0.384">
+  <properties/>
+  <testcase name="Expect valid account info when calling getAccountByName(demo)" classname="com.eodessa.account.controller.AccountControllerSpec" time="0.384"/>
+  <system-out><![CDATA[14:38:38.960 [Test worker] DEBUG org.springframework.web.client.RestTemplate - Created GET request for "http://localhost:6000/accounts/demo"
+14:38:38.968 [Test worker] DEBUG org.springframework.web.client.RestTemplate - Setting request Accept header to [text/plain, application/json, application/*+json, */*]
+14:38:39.009 [Test worker] DEBUG org.springframework.web.client.RestTemplate - GET request for "http://localhost:6000/accounts/demo" resulted in 200 (null)
+14:38:39.011 [Test worker] DEBUG org.springframework.web.client.RestTemplate - Reading [java.lang.String] as "application/json;charset=UTF-8" using [org.springframework.http.converter.StringHttpMessageConverter@62fcc21a]
+14:38:39.166 [Test worker] DEBUG com.jayway.jsonpath.internal.path.CompiledPath - Evaluating path: $[?]
+14:38:39.172 [Test worker] DEBUG com.jayway.jsonpath.internal.path.CompiledPath - Evaluating path: @['name']
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

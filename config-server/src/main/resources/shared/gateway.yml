@@ -23,6 +23,12 @@ zuul:
         stripPrefix: false
         sensitiveHeaders:
 
+    tailor-server:
+        path: /hapi/**
+        url: http://dev.eodessa.com:6006
+        stripPrefix: false
+        sensitiveHeaders:
+
     account-service:
         path: /accounts/**
         serviceId: account-service
