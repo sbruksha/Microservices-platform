@@ -1,7 +1,6 @@
-package com.eodessa.appointment.controller
+package com.eodessa.account.controller
 
 import org.junit.experimental.categories.Category
-import com.eodessa.IntegrationTest
 import org.springframework.http.ResponseEntity
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -13,22 +12,24 @@ import org.springframework.util.MultiValueMap
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
+import com.eodessa.IntegrationTest
+
 import static com.toomuchcoding.jsonassert.JsonAssertion.assertThatJson
 
 @Category(IntegrationTest.class)
-class AppointmentControllerSpec extends Specification {
+class AccountControllerSpec extends Specification {
 
-    def appointmentService = "http://spinnaker.eodessa.com"
+    def accountService = "http://dev.eodessa.com"
     def restTemplate = new RestTemplate()
     def jwt = "Bearer abcdef"
     def headers = new LinkedMultiValueMap<>() as MultiValueMap<String, String>
     def setup(){ headers.setAll(["Authorization": "jwt" ])
     }
 
-    @Unroll("Expect valid appointment info when calling getAppointmentByName(#name)")
-    "should get appointment details by name"() {
-        given: "appointments endpoint"
-        def endpoint = "$appointmentService/appointments/$name"
+    @Unroll("Expect valid account info when calling getAccountByName(#name)")
+    "should get account details by name"() {
+        given: "account endpoint"
+        def endpoint = "$accountService/accounts/$name"
         when: "the endpoint is called"
         def response = restTemplate.exchange(endpoint, HttpMethod.GET, new HttpEntity<String>(headers), String)
         then: "Verify the status code = 200"
@@ -36,9 +37,8 @@ class AppointmentControllerSpec extends Specification {
         and: "Verify the contents of the body"
         DocumentContext parsedJson = JsonPath.parse(response.getBody().toString())
         assert(parsedJson !=null)
-        assertThatJson(parsedJson).field("id").isEqualTo("demo")
-        //assertThatJson(parsedJson).field("['start']").matches("-?(\\d*\\.\\d+|\\d+)")
-        assertThatJson(parsedJson).field("['description']").matches("[\\S\\s]+")
+        assertThatJson(parsedJson).field("name").isEqualTo("demo")
+        //assertThatJson(parsedJson).field("['email']").matches("[\\S\\s]+")
         where:
         num | name
         1   | "demo"

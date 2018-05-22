@@ -1,4 +1,4 @@
-package com.eodessa.account.controller
+package com.eodessa.store.controller
 
 import org.junit.experimental.categories.Category
 import org.springframework.http.ResponseEntity
@@ -17,19 +17,19 @@ import com.eodessa.IntegrationTest
 import static com.toomuchcoding.jsonassert.JsonAssertion.assertThatJson
 
 @Category(IntegrationTest.class)
-class AccountControllerSpec extends Specification {
+class StoreControllerSpec extends Specification {
 
-    def accountService = "http://spinnaker.eodessa.com"
+    def storeService = "http://dev.eodessa.com"
     def restTemplate = new RestTemplate()
     def jwt = "Bearer abcdef"
     def headers = new LinkedMultiValueMap<>() as MultiValueMap<String, String>
     def setup(){ headers.setAll(["Authorization": "jwt" ])
     }
 
-    @Unroll("Expect valid account info when calling getAccountByName(#name)")
-    "should get account details by name"() {
-        given: "account endpoint"
-        def endpoint = "$accountService/accounts/$name"
+    @Unroll("Expect valid store info when calling getByName(#name)")
+    "should get store details by name"() {
+        given: "store endpoint"
+        def endpoint = "$storeService/stores/$name"
         when: "the endpoint is called"
         def response = restTemplate.exchange(endpoint, HttpMethod.GET, new HttpEntity<String>(headers), String)
         then: "Verify the status code = 200"
@@ -38,7 +38,7 @@ class AccountControllerSpec extends Specification {
         DocumentContext parsedJson = JsonPath.parse(response.getBody().toString())
         assert(parsedJson !=null)
         assertThatJson(parsedJson).field("name").isEqualTo("demo")
-        //assertThatJson(parsedJson).field("['email']").matches("[\\S\\s]+")
+        assertThatJson(parsedJson).field("['storename']").matches("[\\S\\s]+")
         where:
         num | name
         1   | "demo"
