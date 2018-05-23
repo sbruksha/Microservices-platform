@@ -74,7 +74,7 @@ task image(type: Docker, dependsOn: build ) {
     doFirst {
         copy {
             from jar
-            into "${stageDir}/target"
+            into "${stageDir}/build/libs"
 
         }
     }
@@ -87,7 +87,7 @@ task publishImage(type: Docker, dependsOn: build ) {
     doFirst {
         copy {
             from jar
-            into "${stageDir}/target"
+            into "${stageDir}/build/libs"
 
         }
     }

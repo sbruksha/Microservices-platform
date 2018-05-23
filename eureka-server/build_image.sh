@@ -1,6 +1,12 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-rm -rf target/*.jar
-mvn package spring-boot:repackage
+echo -n "Enter Image Tag, or leave blank for 'latest'"
+read TAG
+if [ -z $TAG ]; then
+    TAG="latest"
+fi
 
-docker build -t eodessa/eureka-server:latest -f $DIR/Dockerfile $DIR
+rm -rf build/libs/*.jar
+./gradlew clean build
+
+docker build -t eodessa/eureka-server:$TAG -f $DIR/Dockerfile $DIR

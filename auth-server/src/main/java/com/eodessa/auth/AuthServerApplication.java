@@ -97,7 +97,7 @@ public class AuthServerApplication {
 					.authorizedGrantTypes("client_credentials", "refresh_token")
 					.scopes("server")
 			.and()
-					.withClient("statistics-service")
+					.withClient("monitoring")
 					.secret(env.getProperty("STATISTICS_SERVICE_PASSWORD"))
 					.authorizedGrantTypes("client_credentials", "refresh_token")
 					.scopes("server")

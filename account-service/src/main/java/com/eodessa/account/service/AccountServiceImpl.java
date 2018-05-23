@@ -66,7 +66,7 @@ public class AccountServiceImpl implements AccountService {
 
 		log.info("new account has been created: " + account.getName());
 
-		notificationClient.sendWelcomeEmail(user.getUsername());
+		//notificationClient.sendWelcomeEmail(user.getUsername());
 
 		return account;
 	}
