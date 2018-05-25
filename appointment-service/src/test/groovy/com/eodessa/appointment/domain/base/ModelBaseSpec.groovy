@@ -1,6 +1,8 @@
 package com.eodessa.appointment.domain.base
 
 import com.eodessa.appointment.domain.*
+import com.eodessa.appointment.domain.Account
+import com.eodessa.appointment.domain.Service
 import com.eodessa.appointment.domain.Store
 import spock.lang.Shared
 import spock.lang.Specification
@@ -18,6 +20,18 @@ class ModelBaseSpec extends Specification {
 
     def getSTORE_OBJ(){
         Store app = new Store()
+        app.name = TEST_STR
+        return app
+    }
+
+    def getACCOUNT_OBJ(){
+        Account app = new Account()
+        app.name = TEST_STR
+        return app
+    }
+
+    def getSERVICE_OBJ(){
+        Service app = new Service()
         app.name = TEST_STR
         return app
     }
