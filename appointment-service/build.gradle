@@ -69,7 +69,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-test'
 	compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
 	compile 'org.pojomatic:pojomatic:2.0.1'
-    
+
     testCompile(
             'junit:junit:4.12',
             'org.codehaus.groovy:groovy-all:2.4.11',
