@@ -112,21 +112,21 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
 	private Map<String, Object> getMap(String path, String accessToken) {
 		this.logger.debug("Getting user info from: " + path);
 		try {
-			restTemplate = this.restTemplate;
-			if (restTemplate == null) {
+			OAuth2RestOperations rstTemplate = this.restTemplate;
+			if (rstTemplate == null) {
 				BaseOAuth2ProtectedResourceDetails resource = new BaseOAuth2ProtectedResourceDetails();
 				resource.setClientId(this.clientId);
-				restTemplate = new OAuth2RestTemplate(resource);
+				rstTemplate = new OAuth2RestTemplate(resource);
 			}
-			OAuth2AccessToken existingToken = restTemplate.getOAuth2ClientContext()
+			OAuth2AccessToken existingToken = rstTemplate.getOAuth2ClientContext()
 					.getAccessToken();
 			if (existingToken == null || !accessToken.equals(existingToken.getValue())) {
 				DefaultOAuth2AccessToken token = new DefaultOAuth2AccessToken(
 						accessToken);
 				token.setTokenType(this.tokenType);
-				restTemplate.getOAuth2ClientContext().setAccessToken(token);
+				rstTemplate.getOAuth2ClientContext().setAccessToken(token);
 			}
-			return restTemplate.getForEntity(path, Map.class).getBody();
+			return rstTemplate.getForEntity(path, Map.class).getBody();
 		}
 		catch (Exception ex) {
 			this.logger.info("Could not fetch user details: " + ex.getClass() + ", "
