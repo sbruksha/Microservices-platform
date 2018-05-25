@@ -35,7 +35,7 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
 
 	private final String userInfoEndpointUrl;
 
-	private final String clientId;
+	private String clientId;
 
 	private OAuth2RestOperations restTemplate;
 
@@ -95,7 +95,7 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
 	private OAuth2Request getRequest(Map<String, Object> map) {
 		Map<String, Object> request = (Map<String, Object>) map.get("oauth2Request");
 
-		String clientId = (String) request.get("clientId");
+		clientId = (String) request.get("clientId");
 		Set<String> scope = new LinkedHashSet<>(request.containsKey("scope") ?
 				(Collection<String>) request.get("scope") : Collections.<String>emptySet());
 
@@ -112,7 +112,7 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
 	private Map<String, Object> getMap(String path, String accessToken) {
 		this.logger.debug("Getting user info from: " + path);
 		try {
-			OAuth2RestOperations restTemplate = this.restTemplate;
+			restTemplate = this.restTemplate;
 			if (restTemplate == null) {
 				BaseOAuth2ProtectedResourceDetails resource = new BaseOAuth2ProtectedResourceDetails();
 				resource.setClientId(this.clientId);

@@ -25,9 +25,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Autowired
 	private AppointmentRepository repository;
 
-//	@Autowired
-//	private Source source;
-
 	@Autowired
 	@Output(Source.OUTPUT)
 	MessageChannel output;
