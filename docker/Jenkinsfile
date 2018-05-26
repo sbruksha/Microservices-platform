@@ -1,0 +1,76 @@
+node {
+   stage('Get code from GitHub') {
+      // Get code from a GitHub repository
+      git 'https://github.com/sbruksha/Microservices-platform.git'
+   }
+   stage('Build and Unit Test') {
+      // Run build and test
+      sh '''cd $WORKSPACE/account-service && ./gradlew clean build jacocoTestReport
+    cd $WORKSPACE/appointment-service && ./gradlew clean build jacocoTestReport
+    cd $WORKSPACE/auth-server && ./gradlew clean build jacocoTestReport
+    cd $WORKSPACE/config-server && ./gradlew clean build jacocoTestReport
+    cd $WORKSPACE/eureka-server && ./gradlew clean build jacocoTestReport
+    cd $WORKSPACE/gateway && ./gradlew clean build jacocoTestReport
+    cd $WORKSPACE/monitoring && ./gradlew clean build jacocoTestReport
+    cd $WORKSPACE/notification-service && ./gradlew clean build jacocoTestReport
+    cd $WORKSPACE/store-service && ./gradlew clean build jacocoTestReport
+    '''
+   }
+   stage('JaCoCo Report') {
+      jacoco exclusionPattern: '**/test/**,**/lib/**', inclusionPattern: '**/*.class,**/*.java'
+   }
+   stage('SonarQube analysis') {
+        withSonarQubeEnv('Sonar') {
+          sh '''cd $WORKSPACE/appointment-service && ./gradlew sonarqube \
+ -Dsonar.host.url=http://dev.eodessa.com:9091 \
+ -Dsonar.login=xx \
+ -Dsonar.sources=src/main \
+ -Dsonar.java.binaries=build/classes \
+ -Dsonar.java.libraries=build/libs/*.jar
+ cd $WORKSPACE/account-service && ./gradlew sonarqube \
+ -Dsonar.host.url=http://dev.eodessa.com:9091 \
+ -Dsonar.login=xx \
+ -Dsonar.sources=src/main \
+ -Dsonar.java.binaries=build/classes \
+ -Dsonar.java.libraries=build/libs/*.jar
+ cd $WORKSPACE/store-service && ./gradlew sonarqube \
+ -Dsonar.host.url=http://dev.eodessa.com:9091 \
+ -Dsonar.login=xx \
+ -Dsonar.sources=src/main \
+ -Dsonar.java.binaries=build/classes \
+ -Dsonar.java.libraries=build/libs/*.jar'''
+        }
+   }
+   stage("SonarQube Quality Gate") {
+        timeout(time: 1, unit: 'HOURS') {
+           def qg = waitForQualityGate()
+           if (qg.status != 'OK') {
+             error "Pipeline aborted due to quality gate failure: ${qg.status}"
+           }
+        }
+   }
+   stage('Publish Images to Hub') {
+   		withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: '5e1c35ab-1404-4165-b224-8894cc701eeb', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS'],]) {
+        sh '''docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+    cd $WORKSPACE/account-service && ./gradlew build publishImage
+    cd $WORKSPACE/appointment-service && ./gradlew build publishImage
+    cd $WORKSPACE/auth-server && ./gradlew build publishImage
+    cd $WORKSPACE/config-server && ./gradlew build publishImage
+    cd $WORKSPACE/eureka-server && ./gradlew build publishImage
+    cd $WORKSPACE/gateway && ./gradlew build publishImage
+    cd $WORKSPACE/monitoring && ./gradlew build publishImage
+    cd $WORKSPACE/notification-service && ./gradlew build publishImage
+    cd $WORKSPACE/store-service && ./gradlew build publishImage
+    '''
+    	}
+   }
+   stage('Deploy Images with Docker-Compose') {
+        build 'EventDrivenPlatform-Dev-Deploy'
+   }
+   stage('HealthCheck') {
+      httpRequest responseHandle: 'NONE', url: 'http://dev.eodessa.com/health'
+   }
+   stage('Integration Test') {
+      sh '''cd $WORKSPACE/test-integration && ./gradlew clean test'''
+   }
+}

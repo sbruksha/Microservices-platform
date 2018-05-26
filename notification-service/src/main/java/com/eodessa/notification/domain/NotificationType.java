@@ -3,7 +3,8 @@ package com.eodessa.notification.domain;
 public enum NotificationType {
 
 	WELCOME("welcome.email.subject", "welcome.email.text", null),
-	REMIND("remind.email.subject", "remind.email.text", null);
+	REMIND("remind.email.subject", "remind.email.text", null),
+	TEST("TEST_STR", "TEST_STR", "TEST_STR");
 
 	private String subject;
 	private String text;
