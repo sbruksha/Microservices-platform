@@ -13,8 +13,9 @@ class AccountSpec extends ModelBaseSpec {
         expect:
         assert account.name == name
         assert account.email == email
+        assert account.note == note
         where:
-        num | account     | name     | email
-        1   | ACCOUNT_OBJ | TEST_STR | TEST_STR
+        num | account     | name     | email    | note
+        1   | ACCOUNT_OBJ | TEST_STR | TEST_STR | TEST_STR
     }
 }
