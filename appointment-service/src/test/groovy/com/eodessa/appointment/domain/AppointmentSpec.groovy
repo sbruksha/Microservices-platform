@@ -10,8 +10,9 @@ class AppointmentSpec extends ModelBaseSpec {
     def testBuilder() {
         expect:
         assert appointment.id == id
+        assert appointment.description == description
         where:
-        num | appointment     | id
-        1   | APPOINTMENT_OBJ | TEST_STR
+        num | appointment     | id          | description
+        1   | APPOINTMENT_OBJ | TEST_STR    | TEST_STR
     }
 }

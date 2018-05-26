@@ -15,6 +15,7 @@ class ModelBaseSpec extends Specification {
     def getAPPOINTMENT_OBJ(){
         Appointment app = new Appointment()
         app.id = TEST_STR
+        app.description = TEST_STR
         return app
     }
 
@@ -33,6 +34,7 @@ class ModelBaseSpec extends Specification {
     def getSERVICE_OBJ(){
         Service app = new Service()
         app.name = TEST_STR
+        app.duration = TEST_INT
         return app
     }
 }

@@ -12,8 +12,9 @@ class ServiceSpec extends ModelBaseSpec {
     def testBuilder() {
         expect:
         assert service.name == name
+        assert service.duration == duration
         where:
-        num | service     | name
-        1   | SERVICE_OBJ | TEST_STR
+        num | service     | name        | duration
+        1   | SERVICE_OBJ | TEST_STR    | TEST_INT
     }
 }
