@@ -13,8 +13,13 @@ class StoreSpec extends ModelBaseSpec {
         expect:
         assert store.name == name
         assert store.storename == storename
+        assert store.addressstreet == addressstreet
+        assert store.addresscity == addresscity
+        assert store.addressstate == addressstate
+        assert store.addresspostalcode == addresspostalcode
+        assert store.addresscountry == addresscountry
         where:
-        num | store     | name     | storename
-        1   | STORE_OBJ | TEST_STR | TEST_STR
+        num | store     | name     | storename | addressstreet | addresscity | addressstate | addresspostalcode | addresscountry
+        1   | STORE_OBJ | TEST_STR | TEST_STR  | TEST_STR      | TEST_STR    | TEST_STR     | TEST_STR          | TEST_STR
     }
 }
