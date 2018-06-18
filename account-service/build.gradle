@@ -5,20 +5,20 @@ buildscript {
     dependencies {
         classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.5.11.RELEASE'
         classpath 'io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE'
-        //classpath 'se.transmode.gradle:gradle-docker:1.2'
-        //classpath 'net.researchgate:gradle-release:2.6.0'
-        //classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.2'
+        classpath 'se.transmode.gradle:gradle-docker:1.2'
+        classpath 'net.researchgate:gradle-release:2.6.0'
+        classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.2'
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'maven'
-//apply plugin: 'docker'
+apply plugin: 'docker'
 apply plugin: 'jacoco'
 apply plugin: 'groovy'
 apply plugin: 'org.springframework.boot'
-//apply plugin: 'net.researchgate.release'
-//apply plugin: 'org.sonarqube'
+apply plugin: 'net.researchgate.release'
+apply plugin: 'org.sonarqube'
 
 group = 'eodessa'
 sourceCompatibility = 1.8
@@ -69,30 +69,30 @@ test {
 }
 
 
-//task image(type: Docker, dependsOn: build ) {
-//    applicationName = jar.baseName
-//    dockerfile = file('Dockerfile')
-//    doFirst {
-//        copy {
-//            from jar
-//            into "${stageDir}/build/libs"
-//
-//        }
-//    }
-//}
+task image(type: Docker, dependsOn: build ) {
+    applicationName = jar.baseName
+    dockerfile = file('Dockerfile')
+    doFirst {
+        copy {
+            from jar
+            into "${stageDir}/build/libs"
 
-//task publishImage(type: Docker, dependsOn: build ) {
-//    applicationName = jar.baseName
-//    push = true
-//    dockerfile = file('Dockerfile')
-//    doFirst {
-//        copy {
-//            from jar
-//            into "${stageDir}/build/libs"
-//
-//        }
-//    }
-//}
+        }
+    }
+}
+
+task publishImage(type: Docker, dependsOn: build ) {
+    applicationName = jar.baseName
+    push = true
+    dockerfile = file('Dockerfile')
+    doFirst {
+        copy {
+            from jar
+            into "${stageDir}/build/libs"
+
+        }
+    }
+}
 
 jacocoTestReport {
     reports {
@@ -102,14 +102,14 @@ jacocoTestReport {
     }
 }
 
-//afterReleaseBuild.dependsOn publishImage
+afterReleaseBuild.dependsOn publishImage
 
-//release {
-//    revertOnFail = true
-//    tagTemplate = '$name-$version'
-//    buildTasks = ['clean', 'build', 'install']
-//    git {
-//        requireBranch = ''
-//        commitVersionFileOnly = false
-//    }
-//}
+release {
+    revertOnFail = true
+    tagTemplate = '$name-$version'
+    buildTasks = ['clean', 'build', 'install']
+    git {
+        requireBranch = ''
+        commitVersionFileOnly = false
+    }
+}
